@@ -8,13 +8,15 @@
 #include "picojson.h"
 
 #include <mitsukeru/index.h>
+#include <mitsukeru/index/storage.h>
+#include <mitsukeru/index/storage/memory.h>
 #include <mitsukeru/tokeniser.h>
 
 int main(int argc, char** argv)
 {
   std::cout << "Starting up..." << std::endl;
 
-  Mitsukeru::Index* index = new Mitsukeru::Index;
+  Mitsukeru::Index< std::string, uint32_t >* index = new Mitsukeru::Index< std::string, uint32_t >(new Mitsukeru::Index_Storage_Memory< std::string, uint32_t >);
   Mitsukeru::Tokeniser* tokeniser = new Mitsukeru::Tokeniser;
   std::map< uint32_t, picojson::value > docs;
 
@@ -37,17 +39,9 @@ int main(int argc, char** argv)
 
       tokens = tokeniser->tokenise(o["title"].get< std::string >());
       for (std::vector< std::string >::iterator it=tokens->begin();it!=tokens->end();++it) {
-        index->add(o["id"].get< double >(), *it);
+        index->add(*it, o["id"].get< double >());
       }
       delete tokens;
-
-      if ((o.find("comment") != o.end()) && o["comment"].is<std::string>()) {
-        tokens = tokeniser->tokenise(o["comment"].get< std::string >());
-        for (std::vector< std::string >::iterator it=tokens->begin();it!=tokens->end();++it) {
-          index->add(o["id"].get< double >(), *it);
-        }
-        delete tokens;
-      }
     }
   }
   fh.close();
@@ -57,8 +51,7 @@ int main(int argc, char** argv)
   std::string query;
   std::cout << "> ";
   while (getline(std::cin, query)) {
-    std::vector< std::string >* terms = tokeniser->tokenise(query);
-    std::vector< uint32_t >* results = index->search(*terms);
+    std::vector< uint32_t >* results = index->search(query);
     for (std::vector< uint32_t >::iterator it=results->begin();it!=results->end();++it) {
       std::cout << docs[*it] << std::endl;
     }

@@ -1,26 +1,15 @@
-#include <string>
-#include <map>
 #include <vector>
-#include <stdint.h>
 
 #include <mitsukeru/index.h>
 
-void Mitsukeru::Index::add(uint32_t id, const std::string term)
+template < class Term_T, class Data_T >
+void Mitsukeru::Index< Term_T, Data_T >::add(Term_T term, Data_T data)
 {
-  terms[term].push_back(id);
+  storage.add(term, data);
 }
 
-std::vector< uint32_t >* Mitsukeru::Index::search(std::vector< std::string > _terms)
+template < class Term_T, class Data_T >
+std::vector< Data_T >* Mitsukeru::Index< Term_T, Data_T >::search(Term_T term)
 {
-  std::vector< uint32_t >* result = new std::vector< uint32_t >;
-
-  for (std::vector< std::string >::iterator it_a=_terms.begin();it_a!=_terms.end();++it_a) {
-    if (terms.find(*it_a) != terms.end()) {
-      for (std::vector< uint32_t >::iterator it_b=terms[*it_a].begin();it_b!=terms[*it_a].end();++it_b) {
-        result->push_back(*it_b);
-      }
-    }
-  }
-
-  return result;
+  return storage.search(term);
 }

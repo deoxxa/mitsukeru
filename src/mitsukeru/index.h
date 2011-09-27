@@ -1,20 +1,23 @@
-#include <string>
-#include <map>
 #include <vector>
-#include <stdint.h>
+
+#include <mitsukeru/index/storage.h>
 
 #ifndef __MITSUKERU_INDEX_H
 #define __MITSUKERU_INDEX_H
 
 namespace Mitsukeru
 {
-  struct Index
+  template < class Term_T, class Data_T >
+  class Index
   {
   protected:
-    std::map< std::string, std::vector< uint32_t > > terms;
+    Mitsukeru::Index_Storage< Term_T, Data_T >* storage;
   public:
-    void add(uint32_t, std::string);
-    std::vector< uint32_t >* search(std::vector< std::string >);
+    Index(Mitsukeru::Index_Storage< Term_T, Data_T>* _storage) : storage(_storage) {}
+    ~Index() { delete storage; }
+
+    void add(Term_T term, Data_T data);
+    std::vector< Data_T >* search(Term_T term);
   };
 }
 
