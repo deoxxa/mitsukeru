@@ -20,7 +20,7 @@ Build the application like so:
 
 Run it like this:
 
-    $ ./bin/mitsukeru
+    $ ./bin/mitsukeru ./data/data.json
 
 Enter text to search for!
 

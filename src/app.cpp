@@ -22,7 +22,7 @@ int main(int argc, char** argv)
   std::string line;
   picojson::value v;
   std::string err;
-  fh.open("data.json");
+  fh.open(argv[1]);
   while (fh.good()) {
     getline(fh, line);
 
