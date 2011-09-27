@@ -29,7 +29,7 @@ Todo
 
 This is what I want to do with this, roughly in order:
 
-1) Refactoring
+1) Refactoring (started)
 2) Persistent indexes (Kyoto Cabinet?)
 3) More flexible indexes (think MongoDB for searching and not written in Java)
 4) Network server mode (REST, probably)

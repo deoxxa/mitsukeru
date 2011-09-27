@@ -7,63 +7,8 @@
 
 #include "picojson.h"
 
-namespace Mitsukeru
-{
-  struct Index
-  {
-  protected:
-    std::map< std::string, std::vector< uint32_t > > terms;
-  public:
-    void add(uint32_t, std::string);
-    std::vector< uint32_t >* search(std::vector< std::string >);
-  };
-
-  class Tokeniser
-  {
-  public:
-    std::vector< std::string >* tokenise(std::string data);
-  };
-};
-
-void Mitsukeru::Index::add(uint32_t id, const std::string term)
-{
-  terms[term].push_back(id);
-}
-
-std::vector< uint32_t >* Mitsukeru::Index::search(std::vector< std::string > _terms)
-{
-  std::vector< uint32_t >* result = new std::vector< uint32_t >;
-
-  for (std::vector< std::string >::iterator it_a=_terms.begin();it_a!=_terms.end();++it_a) {
-    if (terms.find(*it_a) != terms.end()) {
-      for (std::vector< uint32_t >::iterator it_b=terms[*it_a].begin();it_b!=terms[*it_a].end();++it_b) {
-        result->push_back(*it_b);
-      }
-    }
-  }
-
-  return result;
-}
-
-std::vector< std::string >* Mitsukeru::Tokeniser::tokenise(std::string data)
-{
-  std::vector< std::string >* result = new std::vector< std::string >;
-
-  size_t len = 0;
-  for (size_t i=0;i<=data.size();++i) {
-    if (((data[i] >= 'a' && data[i] <= 'z') || (data[i] >= 'A' && data[i] <= 'Z') || (data[i] >= '0' && data[i] <= '9')) && (i < data.size())) {
-      len++;
-    } else {
-      if (len > 0) {
-        result->push_back(std::string(data.substr(i-len, len)));
-      }
-
-      len = 0;
-    }
-  }
-
-  return result;
-}
+#include <mitsukeru/index.h>
+#include <mitsukeru/tokeniser.h>
 
 int main(int argc, char** argv)
 {
