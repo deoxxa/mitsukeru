@@ -16,8 +16,15 @@ namespace Mitsukeru
     Index(Mitsukeru::Index_Storage< Term_T, Data_T>* _storage) : storage(_storage) {}
     ~Index() { delete storage; }
 
-    void add(Term_T term, Data_T data);
-    std::vector< Data_T >* search(Term_T term);
+    void add(Term_T term, Data_T data)
+    {
+      storage->add(term, data);
+    }
+
+    std::vector< Data_T >* search(Term_T term)
+    {
+      return storage->search(term);
+    }
   };
 }
 

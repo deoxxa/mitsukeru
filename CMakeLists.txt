@@ -51,8 +51,6 @@ ENDIF(MSVC_IDE)
 SET(mitsukeru_source
   src/app.cpp
   src/mitsukeru/tokeniser.cpp
-  src/mitsukeru/index.cpp
-  src/mitsukeru/index/storage/memory.cpp
 )
 SOURCE_GROUP(${PROJECT_NAME} FILES ${mitsukeru_source})
 
