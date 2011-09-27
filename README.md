@@ -16,11 +16,11 @@ Usage
 
 Build the application like so:
 
-    $ g++ -o app mitsukeru.cpp
+    $ cmake . && make
 
 Run it like this:
 
-    $ ./app
+    $ ./bin/mitsukeru
 
 Enter text to search for!
 
